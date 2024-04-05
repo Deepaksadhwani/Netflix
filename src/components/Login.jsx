@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInUser, setIsSignInUser] = useState(true);
@@ -14,9 +19,52 @@ const Login = () => {
   };
 
   const validationHandler = () => {
-    const message = checkValidData(name.current.value,email.current.value, password.current.value);
+    const message = checkValidData(
+      name?.current?.value,
+      email.current.value,
+      password.current.value,
+    );
     setErrorMessage(message);
-    console.log(message);
+    if (message) return;
+
+    //Sign In Sign Up logic
+    if (!isSignInUser) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          console.log(errorCode + " " + errorMessage);
+
+        });
+    }
   };
 
   return (
@@ -68,7 +116,7 @@ const Login = () => {
         >
           {isSignInUser
             ? "New to Netflix ? Sign Up Now"
-            : "Already registered? Sign Up Now."}
+            : "Already registered? Sign In Now."}
         </p>
       </form>
     </div>
