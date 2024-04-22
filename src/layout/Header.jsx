@@ -44,7 +44,7 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
   return (
-    <div className="absolute z-10 flex w-full justify-between bg-gradient-to-b from-black px-10 py-2 ">
+    <div className="absolute pt-4 z-10 flex w-full justify-between bg-gradient-to-b from-black px-10 py-2 ">
       <img
         src={LOGO}
         alt="logo"
