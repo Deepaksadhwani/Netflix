@@ -7,12 +7,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-
+import { USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInUser, setIsSignInUser] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
- 
 
   const name = useRef(null);
   const email = useRef(null);
@@ -42,11 +41,10 @@ const Login = () => {
           console.log(user);
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/108820079?v=4",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
-              console.log(user)
-          
+              console.log(user);
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -69,7 +67,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-  
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -81,7 +78,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <Header />
       <img
         src="https://assets.nflxext.com/ffe/siteui/vlv3/7ca5b7c7-20aa-42a8-a278-f801b0d65fa1/fb548c0a-8582-43c5-9fba-cd98bf27452f/IN-en-20240326-popsignuptwoweeks-perspective_alpha_website_small.jpg"
@@ -120,7 +117,7 @@ const Login = () => {
           onClick={validationHandler}
           className="text-md m-4 w-full cursor-pointer rounded-md bg-[#e50914] p-4 font-semibold  text-white"
         >
-          { isSignInUser ? "Sign In" : "Sign Up" }
+          {isSignInUser ? "Sign In" : "Sign Up"}
         </button>
         <p className="text-red-500">{errorMessage}</p>
         <p
@@ -128,7 +125,7 @@ const Login = () => {
           className="font cursor-pointer py-2 font-medium text-white"
         >
           {isSignInUser
-            ? "New to Netflix ? Sign Up Now"
+            ? "New to NetflixGPT ? Sign Up Now"
             : "Already registered? Sign In Now."}
         </p>
       </form>

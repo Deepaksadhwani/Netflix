@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../store/userSlice";
+import { LOGO } from "../utils/constants";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,9 +44,9 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
   return (
-    <div className="absolute z-10 flex w-screen justify-between bg-gradient-to-b from-black px-10 py-2 ">
+    <div className="absolute z-10 flex w-full justify-between bg-gradient-to-b from-black px-10 py-2 ">
       <img
-        src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={LOGO}
         alt="logo"
         className="w-44"
       />
@@ -53,7 +54,7 @@ const Header = () => {
         <div className=" flex items-center space-x-2">
           <img
             src={user?.photoURL}
-            alt="usericon"
+            alt="userinfo"
             className="h-12 w-12 rounded-lg "
           />
 
