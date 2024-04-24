@@ -5,8 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../store/userSlice";
-import { LOGO } from "../utils/constants";
+import { IoSearchCircleSharp } from "react-icons/io5";
+import { changeLanguage } from "../store/configSlice";
+import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
+import { toggleGptSearchView } from "../store/gptSlice";
+
 const Header = () => {
+  const showGptPage = useSelector((store) => store.gpt.showGptSearch);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
@@ -14,7 +19,6 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-       
       })
       .catch((error) => {
         // An error happened.
@@ -34,24 +38,47 @@ const Header = () => {
           }),
         );
         navigate("/browse");
-      }else{
+      } else {
         dispatch(removeUser());
         navigate("/");
-      
       }
     });
     // unsubscribe when component unmounts
     return () => unsubscribe();
   }, []);
+
+  const toggleGptView = () => {
+    dispatch(toggleGptSearchView());
+  };
+
+  const langChangeHandler = (e) => {
+    
+    dispatch(changeLanguage(e.target.value));
+    
+  };
+
   return (
-    <div className="absolute pt-4 z-10 flex w-full justify-between bg-gradient-to-b from-black px-10 py-2 ">
-      <img
-        src={LOGO}
-        alt="logo"
-        className="w-44"
-      />
+    <div className="absolute z-10 flex w-full justify-between bg-gradient-to-b from-black px-10 py-2 pt-4 ">
+      <img src={LOGO} alt="logo" className="w-44" />
       {user && (
-        <div className=" flex items-center space-x-2">
+        <div  className=" flex items-center space-x-2">
+          {showGptPage && (
+            <select
+              className="m-2 bg-gray-900 p-2 text-white"
+              onChange={langChangeHandler}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <button onClick={toggleGptView} className="flex items-center rounded-lg px-2  py-1  text-2xl font-semibold text-gray-200 transition-all duration-300   hover:bg-black hover:text-white ">
+            <IoSearchCircleSharp className="text-3xl" />
+            Search
+          </button>
           <img
             src={user?.photoURL}
             alt="userinfo"
