@@ -75,9 +75,9 @@ const Header = () => {
             </select>
           )}
 
-          <button onClick={toggleGptView} className="flex items-center rounded-lg px-2  py-1  text-2xl font-semibold text-gray-200 transition-all duration-300   hover:bg-black hover:text-white ">
-            <IoSearchCircleSharp className="text-3xl" />
-            Search
+          <button onClick={toggleGptView} className="flex items-center rounded-lg px-2  py-1  text-2xl font-semibold text-gray-200 transition-all duration-300 bg-gray-700  hover:bg-black hover:text-white ">
+           {!showGptPage ? <IoSearchCircleSharp className="text-3xl" /> : null }
+            {showGptPage ? "Home page" : "Search"}
           </button>
           <img
             src={user?.photoURL}
